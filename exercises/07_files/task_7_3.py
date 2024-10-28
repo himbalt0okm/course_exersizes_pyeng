@@ -20,3 +20,16 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 """
+
+with open("CAM_table.txt", 'r') as f:
+    lines = f.readlines()
+    i=1
+    while i <=6:
+        lines.pop(0)
+        i += 1
+        
+    for line in lines:
+        line = line.strip()
+        line = line.split()
+        result = '{:<9}{:<20}{:<0}'.format(line[0], line[1],line[3])
+        print(result)
