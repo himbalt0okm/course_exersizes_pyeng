@@ -17,3 +17,30 @@ IP-адрес считается доступным, если выполнени
 
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 """
+
+import subprocess
+import ipaddress
+
+def ping_ip_addresses(ip_list):
+    reachable = []
+    unreachable = []
+
+    for ip in ip_list:
+        try:
+            # Проверяем, является ли адрес валидным IP
+            ipaddress.ip_address(ip)
+
+            # Выполняем ping
+            result = subprocess.run(['ping', '-c', '3', '-n', ip], 
+                                    stdout=subprocess.DEVNULL, 
+                                    stderr=subprocess.DEVNULL)
+
+            if result.returncode == 0:
+                reachable.append(ip)
+            else:
+                unreachable.append(ip)
+        except ValueError:
+            print(f"Неверный IP-адрес: {ip}")
+            continue
+
+    return (reachable, unreachable)
